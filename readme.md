@@ -11,7 +11,7 @@ Features:
 
 1. If you define axios libraray globally as `http` you can use automatic CRUD.
 1. Automatic pagination with button.
-1. Out of the box support for sorting, if you response the generated get query parameters.
+1. Out of the box support for sorting, if you respond to to the GET query parameters (see example).
 1. Support for column filters (generate a new GET query based on the `columns` declaraction).
 1. An optional callback `row-mapper` can alter the server response, i.e. to format dates.
 1. The default class declarations are for Bootstrap 4, could also be improved by making optional props.

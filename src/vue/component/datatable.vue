@@ -29,7 +29,7 @@ Author: github.com/srad
                   </th>
                 </template>
               </template>
-              <th width="10%" class="actions" colspan="3"><?= __('Optionen') ?></th>
+              <th width="10%" class="actions" colspan="3">Options</th>
             </tr>
             </thead>
             <tbody>
@@ -39,13 +39,13 @@ Author: github.com/srad
             <tr v-if="rows.length > 0" v-for="(row, rowIndex) in rows">
               <td v-if="!tableColumns[colIndex].hidden" v-for="(col, colIndex) in row" v-bind:class="tableColumns[colIndex].className || ''">{{col}}</td>
               <td v-if="showView">
-                <button class="btn-sm btn btn-outline-secondary btn-block pt-0 pb-0" @click="view({id:row[idCol], index: rowIndex})">Anzeigen</button>
+                <button class="btn-sm btn btn-outline-secondary btn-block pt-0 pb-0" @click="view({id:row[idCol], index: rowIndex})">View</button>
               </td>
               <td v-if="showEdit">
-                <button class="btn-sm btn btn-outline-secondary btn-block pt-0 pb-0" @click="edit({id:row[idCol],  index: rowIndex})">Bearbeiten</button>
+                <button class="btn-sm btn btn-outline-secondary btn-block pt-0 pb-0" @click="edit({id:row[idCol],  index: rowIndex})">Edit</button>
               </td>
               <td v-if="showRemove">
-                <button class="btn-sm btn btn-outline-danger btn-block pt-0 pb-0" @click="remove({id:row[idCol],  index: rowIndex})">Löschen</button>
+                <button class="btn-sm btn btn-outline-danger btn-block pt-0 pb-0" @click="remove({id:row[idCol],  index: rowIndex})">Delete</button>
               </td>
             </tr>
             <tr class="bg-light">
@@ -122,7 +122,7 @@ Author: github.com/srad
         methods: {
             async remove(event) {
                 try {
-                    if (confirm("Löschen?")) {
+                    if (confirm("Delete?")) {
                         // Dont use await, axios raises an exception and it can't be
                         // catched within the reposnse scope.
                         const url = this.url.remove.replace(':id', event.id)
