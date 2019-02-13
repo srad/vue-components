@@ -1,6 +1,6 @@
 # vue data-table
 
-General Vue data-table compoent, example:
+General Vue data-table component, example:
 
 ![](https://github.com/srad/vue-components/raw/master/doc/demo1.png)
 
@@ -12,6 +12,10 @@ Features:
 1. If you define axios libraray globally as `http` you can use automatic CRUD.
 1. Out of the box support for sorting, if you response the generated get query parameters.
 1. Support for column filters (generate a new GET query based on the `columns` declaraction).
+1. An optional callback `row-mapper` can alter the server response, i.e. to format dates.
+1. The default class declarations are for Bootstrap 4, could also be improved by making optional props.
+1. You can provide a CSRF token (see example).
+1. You can provide and format the REST URLs in `/:route/:style`.
 
 This object is query for the GET query, the sever can appropriate react to them:
 
@@ -26,6 +30,10 @@ const query = {
 };
 ```
 
+## Example
+
+This example uses a PHP CSRF token from CakePHP 3.x and httpVueLoader, to load the component.
+
 ```
 <div id="root">
   <data-table v-bind:columns="columns"
@@ -38,7 +46,7 @@ const query = {
               edit-url="'/:controller/edit/:id'"
               remove-url="'/:controller/delete/:id'"
               query-url="'/:controller/index.json?:query'"
-              get-url="'/:controller')"
+              get-url="'/:controller'"
               csrf-token="<?= $this->getRequest()->getParam('_csrfToken') ?>"
               controller="invoices"
               order-by="invoice_id"
