@@ -16,7 +16,7 @@ Author: github.com/srad
                 <input v-if="column.filter" @keyup="filter($event, column.name)" type="text" v-bind:placeholder="column.placeholder" class="form-control form-control-sm">
               </td>
               <td v-bind:colspan="[showView, showEdit, showRemove].map(b => b ? 1 : 0).reduce((a, b) => a + b)" width="15%">
-                <button @click="reset" class="btn-sm btn btn-outline-secondary btn-block">Zurücksetzen</button>
+                <button @click="reset" class="btn-sm btn btn-outline-secondary btn-block">Reset</button>
               </td>
             </tr>
             <tr>
@@ -55,10 +55,10 @@ Author: github.com/srad
                   <option v-for='value in limits' :value='value'>{{value}}</option>
                 </select>
                 <div class="float-right btn-group-sm align-middle" role="group">
-                  <button :disabled="page===1" type="button" class="btn-primary btn" @click="load(1)">&#171; Anfang</button>
-                  <button :disabled="page===1" type="button" class="btn-primary btn" @click="load(Math.max(1, page-1))">&#8249; Zurück</button>
-                  <button :disabled="total<=(pageSize*page)" type="button" class="btn-primary btn" @click="load(page+1)">Vor &#8250;</button>
-                  <button :disabled="total<=(pageSize*page)" type="button" class="btn-primary btn" @click="load(Math.ceil(total/pageSize))">Ende &#8250;</button>
+                  <button :disabled="page===1" type="button" class="btn-primary btn" @click="load(1)">&#171; First</button>
+                  <button :disabled="page===1" type="button" class="btn-primary btn" @click="load(Math.max(1, page-1))">&#8249; Prev</button>
+                  <button :disabled="total<=(pageSize*page)" type="button" class="btn-primary btn" @click="load(page+1)">Next &#8250;</button>
+                  <button :disabled="total<=(pageSize*page)" type="button" class="btn-primary btn" @click="load(Math.ceil(total/pageSize))">Last &#8250;</button>
                 </div>
               </td>
             </tr>

@@ -10,6 +10,7 @@ Example
 Features:
 
 1. If you define axios libraray globally as `http` you can use automatic CRUD.
+1. Automatic pagination with button.
 1. Out of the box support for sorting, if you response the generated get query parameters.
 1. Support for column filters (generate a new GET query based on the `columns` declaraction).
 1. An optional callback `row-mapper` can alter the server response, i.e. to format dates.
@@ -21,12 +22,21 @@ This object is query for the GET query, the sever can appropriate react to them:
 
 ```
 const query = {
-    limit
-    page
-    sort
-    direction
-    query
-    field
+    limit,
+    page,
+    sort,
+    direction,
+    query,
+    field,
+};
+```
+
+Following response is expected:
+
+```
+const response = {
+    controller_name,
+    tota: table_-_count_-_select_-_all
 };
 ```
 
@@ -84,5 +94,11 @@ This example uses a PHP CSRF token from CakePHP 3.x and httpVueLoader, to load t
 </script>
 ```
 
-# License
+## Todo
+
+1. Translation via props.
+1. Provide REST callback, to remove the use of global axios.
+1. Provide propr for HTML class names.
+
+## License
 MIT, do what you want.
