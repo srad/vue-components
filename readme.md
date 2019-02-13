@@ -1,5 +1,4 @@
-vue data-table
---------------
+# vue data-table
 
 General Vue data-table compoent, example:
 
@@ -7,6 +6,25 @@ General Vue data-table compoent, example:
 
 Example
 -------
+
+Features:
+
+1. If you define axios libraray globally as `http` you can use automatic CRUD.
+1. Out of the box support for sorting, if you response the generated get query parameters.
+1. Support for column filters (generate a new GET query based on the `columns` declaraction).
+
+This object is query for the GET query, the sever can appropriate react to them:
+
+```
+const query = {
+    limit
+    page
+    sort
+    direction
+    query
+    field
+};
+```
 
 ```
 <div id="root">
@@ -16,11 +34,11 @@ Example
               v-bind:button-edit="false"
               v-bind:button-remove="true"
               v-bind:row-mapper="rowMapper"
-              v-bind:view-url="'/:controller/view/:id'"
-              v-bind:edit-url="'/:controller/edit/:id'"
-              v-bind:remove-url="'/:controller/delete/:id'"
-              v-bind:query-url="'/:controller/index.json?:query'"
-              v-bind:get-url="'/:controller')"
+              view-url="'/:controller/view/:id'"
+              edit-url="'/:controller/edit/:id'"
+              remove-url="'/:controller/delete/:id'"
+              query-url="'/:controller/index.json?:query'"
+              get-url="'/:controller')"
               csrf-token="<?= $this->getRequest()->getParam('_csrfToken') ?>"
               controller="invoices"
               order-by="invoice_id"
@@ -57,3 +75,6 @@ Example
     })
 </script>
 ```
+
+# License
+MIT, do what you want.
