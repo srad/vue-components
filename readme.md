@@ -36,7 +36,7 @@ Following response is expected:
 ```
 const response = {
     controller_name,
-    tota: table_-_count_-_select_-_all
+    total: table_count_select_all
 };
 ```
 
