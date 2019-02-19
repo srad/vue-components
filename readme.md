@@ -9,16 +9,16 @@ Example
 
 Features:
 
-1. If you define axios libraray globally as `http` you can use automatic CRUD.
-1. Automatic pagination with button.
-1. Out of the box support for sorting, if you respond to to the GET query parameters (see example).
+1. CRUD button with proper route redirects for vue.
+1. Automatic pagination with automatic button activation/deactivation.
+1. Out of the box support for sorting, if you respond to the GET query parameters (see example).
 1. Support for column filters (generate a new GET query based on the `columns` declaraction).
 1. An optional callback `row-mapper` can alter the server response, i.e. to format dates.
 1. The default class declarations are for Bootstrap 4, could also be improved by making optional props.
 1. You can provide a CSRF token (see example).
 1. You can provide and format the REST URLs in `/:route/:style`.
 
-This object is query for the GET query, the sever can appropriate react to them:
+This object is queried on the GET request, the sever can appropriate react to them:
 
 ```
 const query = {
@@ -35,8 +35,8 @@ Following response is expected:
 
 ```
 const response = {
-    controller_name,
-    total: table_count_select_all
+    data: [...],
+    total: 123
 };
 ```
 
@@ -45,29 +45,28 @@ const response = {
 This example uses a PHP CSRF token from CakePHP 3.x and httpVueLoader, to load the component.
 
 ```
-<div id="root">
+<template>
   <data-table v-bind:columns="columns"
               v-bind:primary-key="0"
               v-bind:button-view="true"
               v-bind:button-edit="false"
               v-bind:button-remove="true"
               v-bind:row-mapper="rowMapper"
-              view-url="'/:controller/view/:id'"
-              edit-url="'/:controller/edit/:id'"
-              remove-url="'/:controller/delete/:id'"
-              query-url="'/:controller/index.json?:query'"
-              get-url="'/:controller'"
-              csrf-token="<?= $this->getRequest()->getParam('_csrfToken') ?>"
+              view-url="/invoice/view/:id"
+              edit-url="/invoice/edit/:id"
+              remove-url="/api/:controller/delete/:id"
+              query-url="/api/:controller?:query"
+              get-url="/api/:controller"
+              csrf-token=""
               controller="invoices"
-              order-by="invoice_id"
+              order-by="InvoiceId"
               show-filters="true"
               order-direction="desc">
   </data-table>
-</div>
+</template>
 
 <script>
-    CreateVue({
-        el: "#root",
+    new Vue({
         data: {
             rowMapper: (row) => [
                 row.invoice_id, (row.customer.name.length > 15 ? (row.customer.name.substr(0, 15) + '...') : row.customer.name),
@@ -86,19 +85,16 @@ This example uses a PHP CSRF token from CakePHP 3.x and httpVueLoader, to load t
                 {header: "Bstl.", width: "5%"},
                 {header: "Summe", width: "10%"},
             ],
-        },
-        components: {
-            "data-table": httpVueLoader("../js/src/component/vue/datatable.vue")
-        },
+        }
     })
 </script>
 ```
 
 ## Todo
 
-1. Translation via props.
-1. Provide REST callback, to remove the use of global axios.
-1. Provide propr for HTML class names.
+1. ~~Translation via props.~~
+1. ~~Provide REST callback, to remove the use of global axios.~~
+1. Provide proper for HTML class names.
 
 ## License
 MIT, do what you want.
