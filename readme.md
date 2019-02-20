@@ -20,7 +20,7 @@ Features:
 
 This object is queried on the GET request, the sever can appropriate react to them:
 
-```
+```javascript
 const query = {
     limit,
     page,
@@ -33,9 +33,9 @@ const query = {
 
 Following response is expected:
 
-```
+```javascript
 const response = {
-    data: [...],
+    data: [{InvoiceId: 123, ...}, ...],
     total: 123
 };
 ```
@@ -44,7 +44,7 @@ const response = {
 
 This example uses a PHP CSRF token from CakePHP 3.x and httpVueLoader, to load the component.
 
-```
+```html
 <template>
   <data-table v-bind:columns="columns"
               v-bind:primary-key="0"
@@ -66,27 +66,35 @@ This example uses a PHP CSRF token from CakePHP 3.x and httpVueLoader, to load t
 </template>
 
 <script>
-    new Vue({
-        data: {
-            rowMapper: (row) => [
-                row.invoice_id, (row.customer.name.length > 15 ? (row.customer.name.substr(0, 15) + '...') : row.customer.name),
-                moment(row.invoice_date).format('DD.MM.Y'), moment(row.delivery_date).format('DD.MM.Y'),
-                row.invoice_type.display, row.invoice_payment.display, row.invoice_status.display,
-                row.item_count, (row.total || 0) + "€",
-            ],
-            columns: [
-                {name: "invoice_id", header: "Rchn.Nr.", width: "10%", sortable: true},
-                {name: "customers.name", filter: true, header: "Kunde", width: "20%", sortable: true},
-                {name: "invoice_date", filter: true, sortable: true, header: "Rechnungsdatum", width: "15%"},
-                {name: "delivery_date", filter: true, sortable: true, header: "Lieferdatum", width: "15%"},
-                {header: "Art", width: "15%", sortable: true},
-                {header: "Zahlung", width: "5%", sortable: true},
-                {header: "Status", width: "5%", sortable: true},
-                {header: "Bstl.", width: "5%"},
-                {header: "Summe", width: "10%"},
-            ],
-        }
-    })
+  import DataTable from "components/data-table";
+
+  export default {
+    data() {
+      return {
+        rowMapper: (row) => [
+          row.InvoiceId, row.FirstName, row.LastName,
+          row.InvoiceDate ? row.InvoiceDate.split(" ")[0] : "-", row.DeliveryDate ? row.DeliveryDate.split(" ")[0] : "-",
+          row.InvoiceType, row.InvoicePayment, row.InvoiceStatus,
+          row.ItemCount, row.ItemSum + "€",
+        ],
+        columns: [
+          { name: "InvoiceId", header: "Invoice-Id", width: "10%", sortable: true, className: "text-right" },
+          { name: "FirstName", filter: true, header: "Firstname", width: "10%" },
+          { name: "LastName", filter: true, header: "Lastname", width: "10%" },
+          { name: "InvoiceDate", filter: true, sortable: true, header: "Invoice-Date", width: "10%" },
+          { name: "DeliveryDate", filter: true, sortable: true, header: "Delivery-Date", width: "10%" },
+          { header: "Type", width: "10%" },
+          { header: "Payment", width: "5%" },
+          { header: "State", width: "5%" },
+          { header: "Items", width: "5%", className: "text-right" },
+          { header: "Value", width: "5%", className: "text-right" },
+        ]
+      }
+    },
+    components: {
+      "data-table": DataTable
+    },
+  }
 </script>
 ```
 
@@ -94,7 +102,7 @@ This example uses a PHP CSRF token from CakePHP 3.x and httpVueLoader, to load t
 
 1. ~~Translation via props.~~
 1. ~~Provide REST callback, to remove the use of global axios.~~
-1. Provide proper for HTML class names.
+1. ~~Provide proper for HTML class names.~~
 
 ## License
 MIT, do what you want.
