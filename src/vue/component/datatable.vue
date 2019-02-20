@@ -20,8 +20,11 @@
                   <th v-if="!column.sortable" v-bind:width="column.width || ''" class="">{{column.header}}</th>
                   <th v-else v-on:sort="sort" v-bind:width="column.width || ''" @click="sort({event: $event, column: tableColumns[index].name || index, index})" class="sortable ">
                     {{column.header}}
-                    <span class="float-right" v-if="tableOrderDirection==='asc'">&#x25B2;</span>
-                    <span class="float-right" v-else>&#x25BC;</span>
+                    <span v-if="index===lastIndex">
+                      <span class="float-right" v-if="tableOrderDirection==='asc'">&#x25B2;</span>
+                      <span class="float-right" v-else>&#x25BC;</span>
+                    </span>
+                    <span v-else>&#9776;</span>
                   </th>
                 </template>
               </template>
@@ -84,9 +87,8 @@
         tableOrderBy: this.orderBy,
         tableOrderDirection: this.orderDirection,
         tableRowMapper: this.rowMapper || this._rowMapper,
-        headerFn: this.header || function () {
-          return {"X-CSRF-Token": this.token}
-        },
+        lastIndex: null,
+        headerFn: this.header || function () { return { "X-CSRF-Token": this.token } },
         showView: this.buttonView,
         showEdit: this.buttonEdit,
         showRemove: this.buttonRemove,
@@ -159,7 +161,6 @@
         fetch(url)
           .then((response) => {
             if (!response.ok) {
-              console.error(response);
               alert("Error processing GET request");
               return;
             }
@@ -187,7 +188,6 @@
               method: "DELETE"
             }).then(response => {
               if (!response.ok) {
-                console.error(response);
                 alert("Error processing DELETE request");
                 return;
               }
@@ -220,26 +220,22 @@
         const url = this.url.view.replace(':id', event.id)
           .replace(':controller', this.dataController);
 
-        this.$router.push({path: url, params: {id: event.id}});
+        this.$router.push({ path: url, params: { id: event.id } });
       },
 
       edit(event) {
         const url = this.url.edit.replace(':id', event.id)
           .replace(':controller', this.dataController);
 
-        this.$router.push({path: url, params: {id: event.id}});
+        this.$router.push({ path: url, params: { id: event.id } });
       },
 
       sort(event) {
-        console.log("sort", event.index);
-        if (this.lastIndex !== undefined) {
+        if (this.lastIndex) {
           const col = this.tableColumns[this.lastIndex];
-          console.log(col)
           let classes = col.className.split(" ");
-          console.log(classes);
           classes.splice(classes.indexOf("sorting"), 1);
           col.className = classes.join(" ");
-          console.log(col.className)
         }
         this.tableColumns[event.index].className += " sorting";
         // reverse order
@@ -293,7 +289,6 @@
   th.sorting, td.sorting {
     background-color: #f7f7f7;
   }
-
   /* Stablizes column width, doesn't influence relative width. */
   .table td, .table th {
     max-width: 200px;
