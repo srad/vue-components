@@ -42,8 +42,6 @@ const response = {
 
 ## Example
 
-This example uses a PHP CSRF token from CakePHP 3.x and httpVueLoader, to load the component.
-
 ```html
 <template>
   <data-table v-bind:columns="columns"
